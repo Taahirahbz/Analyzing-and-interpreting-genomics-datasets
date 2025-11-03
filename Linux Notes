@@ -1,0 +1,39 @@
+So far, when specifying directory names, or even a directory path , we have been using relative paths.
+When you use a relative path with a command like ls or cd, it tries to find that location from where we are, rather than from the root of the file system.
+However, it is possible to specify the absolute path to a directory by including its entire path from the root directory, which is indicated by a leading slash.
+The leading / tells the computer to follow the path from the root of the file system, so it always refers to exactly one directory, no matter where we are when we run the command.
+
+For example: To find the absolute path we’re looking for, we can use pwd and then extract the piece we need to move to shell-lesson-data.
+pwd = /Users/nelle/Desktop/shell-lesson-data/exercise-data
+you can cd in = /Users/nelle/Desktop/shell-lesson-data
+Then: Run pwd and ls -F to ensure that we’re in the directory we expect.
+
+The shell interprets a tilde (~) character at the start of a path to mean “the current user’s home directory”.
+For example, if Nelle’s home directory is /Users/nelle, then ~/data is equivalent to /Users/nelle/data. 
+This only works if it is the first character in the path; here/there/~/elsewhere is not here/there/Users/nelle/elsewhere.
+
+Another shortcut is the - (dash) character. cd will translate - into the previous directory I was in, which is faster than having to remember, then type, the full path. 
+This is a very efficient way of moving back and forth between two directories – i.e. if you execute cd - twice, you end up back in the starting directory.
+The difference between cd .. and cd - is that the former brings you up, while the latter brings you back.
+
+Note that mkdir is not limited to creating single directories one at a time.
+The -p option allows mkdir to create a directory with nested subdirectories in a single operation:
+For example: $ mkdir -p ../project/data ../project/results
+If you need to refer to names of files or directories that have spaces or other special characters, you should surround the name in single quotes ('').
+
+It is often good practice to use all lowercase letters in names of files and directories; 
+Windows and macOS file systems are typically case insensitive and therefore unable to distinguish between thesis and Thesis in the same directory.
+
+The touch command generates a new file called my_file.txt in your current directory. You can observe this newly generated file by typing ls at the command line prompt. my_file.txt can also be viewed in your GUI file explorer.
+
+When you inspect the file with ls -l, note that the size of my_file.txt is 0 bytes. In other words, it contains no data. If you open my_file.txt using your text editor it is blank.
+
+Some programs do not generate output files themselves, but instead require that empty files have already been generated.
+When the program is run, it searches for an existing file to populate with its output. 
+The touch command allows you to efficiently generate a blank text file to be used by such programs.
+
+Most people use two-part names most of the time to help them (and their programs) tell different kinds of files apart. 
+The second part of such a name is called the filename extension and indicates what type of data the file holds: 
+.txt signals a plain text file, .pdf indicates a PDF document, .cfg is a configuration file full of parameters for some program or other, .png is a PNG image, and so on.
+
+mv is used both to rename and also to actually move the file.
