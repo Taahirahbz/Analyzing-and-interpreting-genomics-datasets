@@ -1,3 +1,5 @@
+https://swcarpentry.github.io/shell-novice/05-loop.html
+
 So far, when specifying directory names, or even a directory path , we have been using relative paths.
 When you use a relative path with a command like ls or cd, it tries to find that location from where we are, rather than from the root of the file system.
 However, it is possible to specify the absolute path to a directory by including its entire path from the root directory, which is indicated by a leading slash.
@@ -37,3 +39,41 @@ The second part of such a name is called the filename extension and indicates wh
 .txt signals a plain text file, .pdf indicates a PDF document, .cfg is a configuration file full of parameters for some program or other, .png is a PNG image, and so on.
 
 mv is used both to rename and also to actually move the file.
+
+$ cut -d , -f 2 file.csv
+The cut command is used to select or ‘cut out’ certain sections of each line in the file for further processing while leaving the original file unchanged.
+By default, cut expects the lines to be separated into columns by a Tab character. A character used in this way is called a delimiter.
+In the example above we use the -d option to specify the comma as our delimiter character instead of Tab. 
+We have also used the -f option to specify that we want to extract the second field (column). 
+
+Loops are a programming construct which allow us to repeat a command or set of commands for each item in a list. 
+As such they are key to productivity improvements through automation. Similar to wildcards and tab completion, using loops also reduces the amount of typing required 
+(and hence reduces the number of typing mistakes).
+
+$ head -n 5 basilisk.dat minotaur.dat unicorn.dat
+We would like to print out the classification for each species, which is given on the second line of each file. For each file, we would need to execute the command head -n 2 
+and pipe this to tail -n 1. We’ll use a loop to solve this problem.
+
+# The word "for" indicates the start of a "For-loop" command
+for thing in list_of_things 
+#The word "do" indicates the start of job execution list
+do 
+    # Indentation within the loop is not required, but aids legibility
+    operation_using/command $thing 
+# The word "done" indicates the end of a loop
+done  
+and we can apply this.
+
+For example:
+
+$ for filename in basilisk.dat minotaur.dat unicorn.dat
+> do
+>     echo $filename
+>     head -n 2 $filename | tail -n 1
+> done
+
+Each time the loop runs (called an iteration), an item in the list is assigned in sequence to the variable, 
+and the commands inside the loop are executed, before moving on to the next item in the list. 
+Inside the loop, we call for the variable’s value by putting $ in front of it.
+The $ tells the shell interpreter to treat the variable as a variable name and substitute its value in its place, rather than treat it as text or an external command.
+
