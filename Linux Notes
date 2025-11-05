@@ -77,3 +77,52 @@ and the commands inside the loop are executed, before moving on to the next item
 Inside the loop, we call for the variable’s value by putting $ in front of it.
 The $ tells the shell interpreter to treat the variable as a variable name and substitute its value in its place, rather than treat it as text or an external command.
 
+We usually call programs like Microsoft Word or LibreOffice Writer “text editors”, but we need to be a bit more careful when it comes to programming. 
+By default, Microsoft Word uses .docx files to store not only text, but also formatting information about fonts, headings, and so on.
+This extra information isn’t stored as characters and doesn’t mean anything to tools like head, which expects input files to contain nothing but the letters, 
+digits, and punctuation on a standard computer keyboard. When editing programs, therefore, you must either use a plain text editor or be careful to save files as plain text.
+
+Now, within “nano”, replace the text octane.pdb with the special variable called $1:
+head -n 15 "$1" | tail -n 5
+Inside a shell script, $1 means ‘the first filename (or other argument) on the command line’. We can now run our script like this:
+bash middle.sh octane.pdb
+
+Currently, we need to edit middle.sh each time we want to adjust the range of lines that is returned. 
+Let’s fix that by configuring our script to instead use three command-line arguments. 
+After the first command-line argument ($1), each additional argument that we provide will be accessible via the special variables $1, $2, $3, 
+which refer to the first, second, third command-line arguments, respectively.
+Knowing this, we can use additional arguments to define the range of lines to be passed to head and tail respectively:
+head -n "$2" "$1" | tail -n "$3"
+
+
+$ wc -l *.pdb | sort -n
+because wc -l lists the number of lines in the files (recall that wc stands for ‘word count’, adding the -l option means ‘count lines’ instead) 
+and sort -n sorts things numerically. We could put this in a file, but then it would only ever sort a list of .pdb files in the current directory.
+If we want to be able to get a sorted list of other kinds of files, we need a way to get all those names into the script. 
+We can’t use $1, $2, and so on because we don’t know how many files there are. Instead, we use the special variable $@, which means, 
+‘All of the command-line arguments to the shell script’. We also should put $@ inside double-quotes to handle the case of arguments 
+containing spaces ("$@" is special syntax and is equivalent to "$1" "$2" …).
+
+Here’s an example: nano sorted.sh
+
+# Sort files by their length.
+# Usage: bash sorted.sh one_or_more_filenames
+wc -l "$@" | sort -n
+
+We can use the command cut -d , -f 2 animals.csv | sort | uniq to produce the unique species in animals.csv. 
+In order to avoid having to type out this series of commands every time, a scientist may choose to write a shell script instead.
+
+Write a shell script called species.sh that takes any number of filenames as command-line arguments and uses a variation of the above command to
+print a list of the unique species appearing in each of those files separately.
+
+# Script to find unique species in csv files where species is the second data field
+# This script accepts any number of file names as command line arguments
+
+# Loop over all files
+for file in $@
+do
+    echo "Unique species in $file:"
+    # Extract species names
+    cut -d , -f 2 $file | sort | uniq
+done
+
