@@ -132,3 +132,7 @@ head -n 3	First 3 lines	1 2 3
 head -n -1	All but last line	1 2 3 4
 tail -n 3	Last 3 lines	3 4 5
 tail -n +3	From line 3 onward	3 4 5
+
+We use the -E option and put the pattern in quotes to prevent the shell from trying to interpret it. 
+(If the pattern contained a *, for example, the shell would try to expand it before running grep.) The ^ in the pattern anchors the match to the start of the line. 
+The . matches a single character (just like ? in the shell), while the o matches an actual ‘o’.
