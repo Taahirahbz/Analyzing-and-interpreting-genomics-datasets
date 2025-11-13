@@ -73,6 +73,18 @@ It’s a lot more useful for these files to be sorted based on the order they we
 We’ll use samtools to do this:
                                                                           samtools sort -@ 32 -o Mapping/ERR5743893.sorted.bam Mapping/ERR5743893.bam
 
+For large files storage, git LFS has been downloaded and installed using Gitbash. Large files can be tracked with the following command: (cd in your repo first)
+
+git lfs track "*.sam"
+git add .gitattributes
+git add Mapping/ERR5743893.sam
+git commit -m "Add large SAM file via LFS"
+git push origin main
+
+
+7. 
+
+
 
 
 
