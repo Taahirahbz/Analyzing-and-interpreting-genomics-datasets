@@ -88,7 +88,24 @@ Briefly, we index BAM files to speed access to specific genomic regions and read
                                                             samtools index Mapping/ERR5743893.sorted.bam
 8. You can now visualize your BAM file on Integrative Genomics Viewer (IGV) as shown in the screencast below:
 
+
+
+###To use IGV, you need the reference.fasta and the index reference.fasta.fai###
+##Instructions to use IGV##
 (https://youtu.be/die924mosh0?si=NUi5QWlImCdx-a5E)
+So I'm going to take you through IGV and how you can visualise your bam files with IGV. 
+So how you do this-- you just need to search IGV on your browser. So if you just search IGV, then web app, and then click on the first one.
+So that's the IGV web app. You can also download the desktop version and use the desktop one, but I'm going to use the web app. 
+So once it opens, you need to load in your reference and then load in your bam file. So we're going to first load the reference.
+So you just need to come and select on Genome. And because our reference is local, just choose Local File. And it should be in my Downloads. 
+And then I'll just go and select. This is our reference. And you have to also select the index file. So you have to select both of them at the same time, then click on Open.
+So the reference has loaded. We're now going to load our bam file. So click on Track, Local File. Then this is our bam file.
+Remember, the one we've obtained from mapping to our reference read. So you still need to select both the bam file and the index file together. 
+So once you select both of them, just click Open. Then your bam file will load. So it's going to take a few seconds or so to load. Yeah, there you go.
+So this is your bam file. This is the name of the bam file. And then this is your reference at the top. So you can increase this, the size of your screen. 
+So you can visualise your file sample well. And then, of course, if you click on any-- 
+so these are reads So if you click on any read, it will just give you the information of that particular read. 
+For instance, if I click on this one, it will tell me this is the read name, the alignment stat, and all this information about or concerning the read
 
 
 
