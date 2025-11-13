@@ -82,7 +82,14 @@ git commit -m "Add large SAM file via LFS"
 git push origin main
 
 
-7. 
+7. Next we need to index the sorted BAM file. 
+Briefly, we index BAM files to speed access to specific genomic regions and read data, allowing for effective variant calling, visualisation, and genomics research:
+
+                                                            samtools index Mapping/ERR5743893.sorted.bam
+8. You can now visualize your BAM file on Integrative Genomics Viewer (IGV) as shown in the screencast below:
+
+(https://youtu.be/die924mosh0?si=NUi5QWlImCdx-a5E)
+
 
 
 
