@@ -1,5 +1,12 @@
-MAKE SURE YOU ALREADY DOWNLOADED THE .YML FILE WHICH IS AN ENVIRONMENT FILE. IT WILL CONTAIN ALL THE DEPENDENCIES TO RUN THE COMMANDS BELOW. 
+#PREPARE THE ENVIRONMENT#
+
+MAKE SURE YOU ALREADY DOWNLOADED THE .YML FILE WHICH IS AN ENVIRONMENT FILE.
+IT WILL CONTAIN ALL THE DEPENDENCIES TO RUN THE COMMANDS BELOW. Make sure that the .yml and the data files to be used are in the same folders.
 IN THIS TUTORIAL, IT IS ALREADY GIVEN FOR DOWNLOAD AD A MOOC.YML FILE.
+    -  cd into the folder contaning the env.yml **FILE**
+    -  conda activate env
+
+##Prepare dataset##
 
 1. How to download datasets? 
 (data for this sample using the following command (the sample identifier below is the accession number for the data in the European Nucleotide Archive (ENA))
@@ -21,6 +28,57 @@ In the QC_reports directory, run the following command:
                                                                    multiqc .
 
 7. Open the multiaq report in the web browser. Go to the folder and double click on the file.
+
+# Mapping the sample to the reference#
+
+The reference genome is a thorough, well-annotated depiction of a species’ genetic makeup. 
+It serves as a standard template for mapping because it offers a thorough blueprint of genes, regulatory components, and other genomic properties.
+There are several critical steps in the read mapping process. First the reference genome is prepared for alignment by performing genome indexing. 
+This generates an index similar to a book index and enables mapping algorithms to search the genome and find matches with sequencing reads. 
+However, this process is only necessary once for each mapping software, which is noteworthy.
+The mapping result is a SAM format. The SAM file has a unified format for storing read alignments to a reference genome. 
+It has 11 fixed columns and the optional key:type:value tuples.
+
+Please refer to the following for SAM format. (https://ugc.futurelearn.com/uploads/assets/ce/72/hero_ce728418-d25b-4d85-943d-ed87e6cab341.png)
+
+A Compact Idiosyncratic Gapped Alignment Report (CIGAR) string offers a succinct overview of the alignment’s structure, 
+enabling effective representation of alignments and conserving storage space. 
+It is especially helpful for highlighting complicated alignments with insertions, deletions, and mismatches.
+Bioinformaticians can recreate the alignment and comprehend how the read relates to the reference sequence by decoding the CIGAR string.
+
+Please refer to the following for CIGAR. (https://ugc.futurelearn.com/uploads/assets/54/dd/hero_54dd4ca4-4f27-43fa-8a49-876150fe9640.png)
+
+1. First let’s create a directory to store the results from BWA-MEM:                           mkdir Mapping
+2. The first step of the mapping process is to index the reference genome. 
+Indexing is a key method for increasing the effectiveness of data access and retrieval in databases and computer systems. 
+It makes data access quicker and more effective, lessens computational complexity, and supports advanced querying procedures.
+                                                                                              bwa index **REFERENCE**.fasta 
+The code above creates the index of the reference sequence.
+3. Now, we’re ready to map the sequences from our target sample to the reference genome with the following code:
+                                                                                    bwa mem REFERENCE.fasta ERR5743893_1.fastq ERR5743893_2.fastq > Mapping/ERR5743893.sam
+
+4. Once BWA MEM has finished running, change to the Mapping directory and list the files:
+                                                                                      cd Mapping  ls -lhrt
+5. To save on space and speed up downstream analysis, we’re going to convert the SAM file to a BAM file using samtools (you’ll need to come out of the Mapping directory first):
+                                                                                     
+                                                                                          cd ..
+                                                                                    samtools view -@ 20 -S -b Mapping/ERR5743893.sam > Mapping/ERR5743893.bam
+
+The Samtools options have different meanings. Running “samtools –help” gives a detailed description of all options. In our context, the options imply:
+@ - number of threads, S - input is a SAM file, b - output should be a BAM file
+
+6. By default the SAM and BAM file we created is sorted by the order of the reads in the fastq files.
+It’s a lot more useful for these files to be sorted based on the order they were mapped
+(i.e. we want a BAM file of reads and mapping information ordered by where in the reference genome those reads were aligned). 
+We’ll use samtools to do this:
+                                                                          samtools sort -@ 32 -o Mapping/ERR5743893.sorted.bam Mapping/ERR5743893.bam
+
+
+
+
+
+
+
 
 
            
