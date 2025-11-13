@@ -1,0 +1,26 @@
+MAKE SURE YOU ALREADY DOWNLOADED THE .YML FILE WHICH IS AN ENVIRONMENT FILE. IT WILL CONTAIN ALL THE DEPENDENCIES TO RUN THE COMMANDS BELOW. 
+IN THIS TUTORIAL, IT IS ALREADY GIVEN FOR DOWNLOAD AD A MOOC.YML FILE.
+
+1. How to download datasets? 
+(data for this sample using the following command (the sample identifier below is the accession number for the data in the European Nucleotide Archive (ENA))
+
+                                                                 fastq-dump --split-files ERR5743893 (2 files will be downloaded)
+
+2. Make sure to have a reference sequence. 
+It can de downloaded from ENA as well. In this tutorial, it is given in a fa.zip file and it is already downloaded in this repository.
+
+3. To be in the deisred environment,Run                           Conda activate MOOC                          
+
+4. Create a folder for the report:                                 mkdir -p QC_Reports 
+5. Perform Quality check using: 
+                                    fastqc ERR5743893_1.fastq ERR5743893_2.fastq --outdir QC_Reports
+(Report is saved in the created folder)
+6. We’ll use a tool called multiQC to summarise the fastqc outputs. 
+It’s a clever tool as it has been designed to recognise and parse the the outputs from a number of commonly used bioinformatics tools. 
+In the QC_reports directory, run the following command:
+                                                                   multiqc .
+
+7. Open the multiaq report in the web browser. Go to the folder and double click on the file.
+
+
+           
