@@ -44,7 +44,7 @@ Most tools will accept compressed VCF files so there’s no need to uncompress t
                                                       tabix ERR5743893.vcf.gz
 
 
-Yes — bgzip and tabix are designed to work together in genomics pipelines. Let me explain the flow clearly.
+Yes — bgzip and tabix are designed to work together in genomics pipelines. 
 
 1. bgzip
 
@@ -82,6 +82,21 @@ tabix -p vcf ERR5743893.vcf.gz
 bcftools view ERR5743893.vcf.gz chr1:1000-5000
 
 
+***
+Fully unzip to a .vcf file
+
+If you want an uncompressed file:
+
+gunzip -k file.vcf.gz
+
+
+-k keeps the original .gz file; without it, gunzip deletes the compressed file.
+
+This creates file.vcf.
+
+***
+
+
 ✅ Summary
 
 bgzip compresses the file in a format suitable for indexing.
@@ -90,7 +105,90 @@ tabix indexes it so genomic tools can quickly query by region.
 
 Alone, bgzip just compresses; alone, tabix won’t work on uncompressed VCFs. Together, they are a standard combination in genomics.
 
-If you want, I can draw a diagram of the full VCF workflow from BAM → VCF → bgzip → tabix → region queries — it makes it very clear how the pieces fit together.
 
-You said:
-how to unzip to view on github
+#to sort variants, the following command is used:
+                                         zcat ERR5743893.vcf.gz | grep -v "^#" | cut -f8 | grep -oE "(TYPE|SVTYPE)=[^;]+" | sort | uniq -c | sort -nr
+##1. zcat ERR5743893.vcf.gz##
+
+zcat decompresses a .gz file to standard output (without creating a temporary uncompressed file).
+
+ERR5743893.vcf.gz is the VCF file compressed with gzip.
+
+So this step outputs the entire VCF file contents.
+
+##2. grep -v "^#"##
+
+grep -v means select lines that do NOT match the pattern.
+
+^# matches lines that start with #.
+
+In a VCF file, lines starting with # are headers or metadata.
+
+So this step removes header lines, leaving only variant records.
+
+##3. cut -f8##
+
+cut -f8 extracts the 8th column (fields are tab-separated by default).
+
+In VCF, the 8th column is the INFO field, which contains semicolon-separated key=value pairs describing variant annotations.
+
+So now we’re just looking at the INFO fields.
+
+##4. grep -oE "(TYPE|SVTYPE)=[^;]+"##
+
+grep -oE:
+
+-o = only output the matching part of the line
+
+-E = use extended regular expressions
+
+The regex (TYPE|SVTYPE)=[^;]+ means:
+
+(TYPE|SVTYPE) → match either TYPE or SVTYPE
+
+= → literal equal sign
+
+[^;]+ → match one or more characters that are not a semicolon
+
+So this extracts only the TYPE or SVTYPE annotation from each INFO field.
+
+##5. sort##
+
+Sorts the extracted TYPE/SVTYPE values alphabetically.
+
+This is necessary for uniq -c to count duplicates correctly.
+
+##6. uniq -c##
+
+Counts how many times each unique TYPE/SVTYPE appears.
+
+Output looks like:
+
+42 TYPE=DEL
+13 TYPE=DUP
+7  SVTYPE=INS
+
+##7. sort -nr##
+
+Sort the counts numerically (-n) and in reverse order (-r), so the most frequent types come first.
+
+Final output is a frequency table of variant types, sorted by count.
+
+
+
+
+##Here’s a cleaner and slightly faster way to do the same thing:##
+
+zgrep -v "^#" ERR5743893.vcf.gz | awk -F'\t' '{print $8}' | grep -oE "(TYPE|SVTYPE)=[^;]+" | sort | uniq -c | sort -nr
+
+What’s different / improved:
+
+zgrep instead of zcat | grep
+
+zgrep can search inside gzipped files directly, so we skip a step.
+
+awk -F'\t' '{print $8}' instead of cut -f8
+
+awk is more flexible and widely used in pipelines; behaves like cut here.
+
+Rest of the pipeline is the same: extract TYPE/SVTYPE, count, and sort.
