@@ -1,0 +1,12 @@
+1. When working with Github, have all the datasets in the root repo.
+2. Create the environment.yml file in the root repo. See *pipeline* for more info.
+3. Use codespace to have the terminal and to create and activate the environment from the .yml file
+4. If new files are created from the terminal, merge it before deleteing the codespace.
+5. Either git add, commit push if there is no new files in the main repo or:
+
+#Merge (safer, default) 
+This keeps all commits and creates a merge commit:
+                                                  git pull --no-rebase origin main
+Once done: 
+                                                   git push
+
