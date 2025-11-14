@@ -1,0 +1,3 @@
+###Every command used (on codespace named workflow)for workflow analysis as per tutorial shall be listed as w1., w2., ect.. ABOVE the following notes.
+###Every file generated from that workspace shall be named as wfile1, wfile2, ect...
+
