@@ -1,0 +1,31 @@
+The tools used to call variants
+
+Several tools can be used for variant calling (GATK, Samtools, Freebayes). One of the most common outputs of variant calling is the variant call format (VCF). 
+A VCF is a tab-delimited text, parsable by standard UNIX commands and can be compressed with BGZF (bgzip) and indexed with TBI or CSI (tabix).
+
+An overview of key fields found in a VCF file include: (https://ugc.futurelearn.com/uploads/assets/fc/03/hero_fc035324-235a-4750-a3cb-f232aec85592.png)
+
+CHROM: Chromosome or contig name where the variant is located.
+
+POS: Position of the variant on the chromosome or contig.
+
+ID: A unique identifier for the variant, often used to link to external databases.
+
+REF: The reference allele, representing the genomic base at the specified position in the reference genome.
+
+ALT: The alternate allele(s), indicating the variant base(s) observed in the sample(s). Multiple alternate alleles can be represented.
+
+QUAL: Quality score representing the confidence or quality of the variant call.
+
+FILTER: Information about any filters or criteria used to determine the variant call, showing whether the variant met quality standards or particular significance thresholds.
+
+INFO: A field containing additional information about the variant.
+It includes various subfields denoted by key-value pairs, such as allele frequency, functional annotations, and predicted effects.
+
+FORMAT: Defines the structure of sample-specific genotype and variant information. 
+Specifies which fields are present for each sample, such as genotype quality (GQ), allele depth (AD), and more.
+
+SAMPLE Genotype Fields: These fields provide genotype information for each sample at the variant position. 
+Genotypes indicate the combination of alleles carried by each sample, often using numerical codes (e.g., 0/0 for homozygous reference, 0/1 for heterozygous, 1/1 for homozygous alternate).
+
+
