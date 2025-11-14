@@ -26,6 +26,169 @@ FORMAT: Defines the structure of sample-specific genotype and variant informatio
 Specifies which fields are present for each sample, such as genotype quality (GQ), allele depth (AD), and more.
 
 SAMPLE Genotype Fields: These fields provide genotype information for each sample at the variant position. 
-Genotypes indicate the combination of alleles carried by each sample, often using numerical codes (e.g., 0/0 for homozygous reference, 0/1 for heterozygous, 1/1 for homozygous alternate).
+Genotypes indicate the combination of alleles carried by each sample, often using numerical codes 
+(e.g., 0/0 for homozygous reference, 0/1 for heterozygous, 1/1 for homozygous alternate).
+
+In the previous section we mapped our sample to the reference genome. Here, we will call variants from the BAM file using FreeBayes. 
+First we need to index the reference genome using samtools:
+
+                                                    samtools faidx MN908947.fasta
+
+Now, let’s use FreeBayes to identify the variants in our test sample:
+
+                                                        freebayes -f MN908947.fasta Mapping/ERR5743893.sorted.bam  > ERR5743893.vcf
+Finally, it’s good practice to compress and index the VCF file so it takes up less space. 
+Most tools will accept compressed VCF files so there’s no need to uncompress them later.
+
+                                                     bgzip ERR5743893.vcf
+                                                      tabix ERR5743893.vcf.gz
 
 
+Yes — bgzip and tabix are designed to work together in genomics pipelines. 
+
+1. bgzip
+
+Compresses a VCF file (or any text-based genomic file) into a special indexed-friendly gzip format:
+
+bgzip ERR5743893.vcf
+# produces ERR5743893.vcf.gz
+
+
+Normal gzip creates a file that cannot be efficiently indexed for random access. bgzip allows jumping directly to specific genomic regions without decompressing the whole file.
+
+2. tabix
+
+Creates an index for a bgzip-compressed file.
+
+For VCFs:
+
+tabix -p vcf ERR5743893.vcf.gz
+# creates ERR5743893.vcf.gz.tbi
+
+
+The index (.tbi) allows tools like bcftools, IGV, or FreeBayes downstream to quickly fetch variants in a region, e.g., chr1:10000-20000.
+
+3. Typical workflow
+# 1. Variant calling produces VCF
+freebayes -f Reference.fasta Mapping/ERR5743893.sorted.bam > ERR5743893.vcf
+
+# 2. Compress VCF for indexing
+bgzip ERR5743893.vcf
+
+# 3. Index the compressed VCF
+tabix -p vcf ERR5743893.vcf.gz
+
+# 4. Query or use in downstream tools
+bcftools view ERR5743893.vcf.gz chr1:1000-5000
+
+
+***
+Fully unzip to a .vcf file
+
+If you want an uncompressed file:
+
+gunzip -k file.vcf.gz
+
+
+-k keeps the original .gz file; without it, gunzip deletes the compressed file.
+
+This creates file.vcf.
+
+***
+
+
+✅ Summary
+
+bgzip compresses the file in a format suitable for indexing.
+
+tabix indexes it so genomic tools can quickly query by region.
+
+Alone, bgzip just compresses; alone, tabix won’t work on uncompressed VCFs. Together, they are a standard combination in genomics.
+
+
+#to sort variants, the following command is used:
+                                         zcat ERR5743893.vcf.gz | grep -v "^#" | cut -f8 | grep -oE "(TYPE|SVTYPE)=[^;]+" | sort | uniq -c | sort -nr
+##1. zcat ERR5743893.vcf.gz##
+
+zcat decompresses a .gz file to standard output (without creating a temporary uncompressed file).
+
+ERR5743893.vcf.gz is the VCF file compressed with gzip.
+
+So this step outputs the entire VCF file contents.
+
+##2. grep -v "^#"##
+
+grep -v means select lines that do NOT match the pattern.
+
+^# matches lines that start with #.
+
+In a VCF file, lines starting with # are headers or metadata.
+
+So this step removes header lines, leaving only variant records.
+
+##3. cut -f8##
+
+cut -f8 extracts the 8th column (fields are tab-separated by default).
+
+In VCF, the 8th column is the INFO field, which contains semicolon-separated key=value pairs describing variant annotations.
+
+So now we’re just looking at the INFO fields.
+
+##4. grep -oE "(TYPE|SVTYPE)=[^;]+"##
+
+grep -oE:
+
+-o = only output the matching part of the line
+
+-E = use extended regular expressions
+
+The regex (TYPE|SVTYPE)=[^;]+ means:
+
+(TYPE|SVTYPE) → match either TYPE or SVTYPE
+
+= → literal equal sign
+
+[^;]+ → match one or more characters that are not a semicolon
+
+So this extracts only the TYPE or SVTYPE annotation from each INFO field.
+
+##5. sort##
+
+Sorts the extracted TYPE/SVTYPE values alphabetically.
+
+This is necessary for uniq -c to count duplicates correctly.
+
+##6. uniq -c##
+
+Counts how many times each unique TYPE/SVTYPE appears.
+
+Output looks like:
+
+42 TYPE=DEL
+13 TYPE=DUP
+7  SVTYPE=INS
+
+##7. sort -nr##
+
+Sort the counts numerically (-n) and in reverse order (-r), so the most frequent types come first.
+
+Final output is a frequency table of variant types, sorted by count.
+
+
+
+
+##Here’s a cleaner and slightly faster way to do the same thing:##
+
+zgrep -v "^#" ERR5743893.vcf.gz | awk -F'\t' '{print $8}' | grep -oE "(TYPE|SVTYPE)=[^;]+" | sort | uniq -c | sort -nr
+
+What’s different / improved:
+
+zgrep instead of zcat | grep
+
+zgrep can search inside gzipped files directly, so we skip a step.
+
+awk -F'\t' '{print $8}' instead of cut -f8
+
+awk is more flexible and widely used in pipelines; behaves like cut here.
+
+Rest of the pipeline is the same: extract TYPE/SVTYPE, count, and sort.

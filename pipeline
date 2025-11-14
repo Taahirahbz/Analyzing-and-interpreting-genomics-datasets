@@ -107,6 +107,18 @@ So you can visualise your file sample well. And then, of course, if you click on
 so these are reads So if you click on any read, it will just give you the information of that particular read. 
 For instance, if I click on this one, it will tell me this is the read name, the alignment stat, and all this information about or concerning the read
 
+if environment is used on github:
+
+#Create the environment in Codespaces
+
+Open the terminal in Codespaces and run:
+
+conda env create -f MOOC.yml
+
+This reads the .yml file and installs all dependencies in a new environment called MOOC.
+
+You only need to do this once per Codespace.
+
 
 
 
