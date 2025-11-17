@@ -1,0 +1,22 @@
+Create a text file called samples.txt in your working directory. Copy and paste the ENA accessions below into this file:
+
+ERR5556343
+
+SRR13500958
+
+ERR5743893
+
+ERR5181310
+
+ERR5405022
+
+Now we can use a for loop to run fastq-dump on each of the accessions in samples.txt:
+
+for i in $(cat samples.txt);do fastq-dump --split-files $i;done
+It’s always good practice to save disk space where we can, so let’s compress the fastq files we just downloaded with gzip:
+
+gzip *.fastq
+Now create a directory called data and move the fastq files there:
+
+mkdir data
+mv *.fastq.gz data
