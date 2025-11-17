@@ -1,0 +1,16 @@
+1. create a .txt file containing all accession number of the desired dataset
+2. fast1-dump --split (see code in viralrecon, loop is used)
+3. Compress al fastq files to save space using gunzip
+4. there is a python script that uses data to create a CSV sample sheet automatically:
+
+wget -L https://raw.githubusercontent.com/nf-core/viralrecon/master/bin/fastq_dir_to_samplesheet.py
+
+Run the script using the following command:
+
+ python3 fastq_dir_to_samplesheet.py data samplesheet.csv -r1 _1.fastq.gz -r2 _2.fastq.gz
+
+ Samplesheet.csv is ready to be used in viralrecon.
+
+ 5. conda activate nextflow
+
+ 
