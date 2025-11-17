@@ -1,0 +1,49 @@
+1. Check dependencied in nf-core repo.
+2. As per tutorial, environment MOOC has to be activated. (It has all the dependencies needed)
+3. An environment is just a .yml file on the repo - it should first be created then activated as followd:
+
+conda env create -f MOOC.yml
+conda activate MOOC
+
+
+4. If your GitHub repo already has a conda environment set up (via MOOC.yml), you don’t need to touch base. 
+You just need to activate your environment and then install nf-core inside it. Here’s a clear way to do it on a GitHub Codespace or local clone:
+
+Install nf-core
+With your environment activated, install nf-core via conda:
+
+conda install -c bioconda nf-core
+
+
+This will install nf-core in your environment without affecting base. Bioconda channel contains bioinformatics tools, including nf-core.
+
+IF OLDER VERSION OF ENVIRONMENT OR ONE WITH NO ALL REQUIRED DEPENDENCIES ARE USED, PROCEED AS FOLLOWS:
+
+5. Add the conda-forge channel and try again
+
+Tabulate and many dependencies are in conda-forge, so it’s often enough to include that:
+
+conda install -c conda-forge -c bioconda nf-core  (conda-forge should come before bioconda in the command.)
+This tells Conda to look in both channels for missing dependencies.
+
+##Ways to make it persistent
+There are ways to make your environment reproducible, so you don’t have to recreate it from scratch every time:
+
+Use environment.yml (Mooc.yml)
+
+If your repo already has an environment, you can just do:
+
+conda env create -f MOOC.yml
+conda activate MOOC
+
+
+If nf-core is not in your MOOC.yml, you’ll need to install it separately (via conda or pip) after activating the environment:
+
+Update MOOC.yml with nf-core
+After installing nf-core once, you can update your MOOC.yml:
+
+conda env export > environment.yml     
+(Now, anyone who clones your repo, or you reopen the Codespace, can just do conda *env create -f MOOC.yml*    *conda activate MOOC* )
+
+
+
