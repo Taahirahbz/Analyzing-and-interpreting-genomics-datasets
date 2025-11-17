@@ -30,6 +30,19 @@ Reproducibility: the use of software management and version control means pipeli
 Resumption: continuous checkpointing allows pipelines to be resumed from the last successfully executed steps. 
 This means you don’t have to restart the whole workflow if one of the steps fails or your computer decides to restart itself.
 
+#The nf-core project:
+
+Pipelines developed for nf-core must follow strict guidelines. 
+These include using the nf-core template, standardised parameters, such as input formats, 
+high quality documentation outlining inputs, parameters and outputs and test datasets that can be used when testing any nf-core pipeline on a new system. 
+Each pipeline release is version controlled, meaning that the same software tools and versions are used ensuring reproducibility.
+
+
+There are currently over 80 pipelines available through nf-core and these include pipelines for downloading fastq files from the European Nucleotide Archive
+or Short Read Archive (fetchngs), RNA-seq analysis (rnaseq) and metagenomics (mag). 
+Help and advice on running nf-core pipelines can be found in a number of different community forums including a vibrant slack channel. 
+Now that we’ve introduced you to nf-core, we can start preparing to run one of their pipelines, viralrecon. 
+We’re going to cover installing Nextflow (a containerisation tool) on your system using conda.
 
 
 
