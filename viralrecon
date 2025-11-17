@@ -1,0 +1,15 @@
+The nf-core viralrecon pipeline
+
+nf-core/viralrecon is a Nextflow-based analysis pipeline used to perform assembly and 
+intra-host/low-frequency variant calling for viral samples and supports both Illumina and Nanopore sequencing data
+
+For Illumina short-reads the pipeline is able to analyse metagenomics data typically obtained from shotgun sequencing 
+(e.g. directly from clinical samples) and enrichment-based library preparation methods (e.g. amplicon-based: ARTIC SARS-CoV-2 enrichment protocol; or probe-capture-based).
+
+  Briefly, the sequence data is quality controlled (QC) then, depending on the type of data and 
+  what analyses you’d like to perform, the sequence reads are either mapped to a reference and variant calling performed or else the data is de novo assembled. 
+    Alternatively, like most nf-core pipelines, you can do both.
+
+      As with all nf-core pipelines and all bioinformatics tools in fact,
+      it’s always worth reading the documentation to understand the different steps of the pipeline and what other options there may be available.
+        
