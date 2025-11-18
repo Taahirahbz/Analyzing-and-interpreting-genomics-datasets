@@ -1,0 +1,63 @@
+in github, if you want to use nextflow, go to code space and run:
+
+conda install -c bioconda nextflow
+
+To make sure which version it is, run:
+
+nextflow -v
+
+Step 3: Run Nextflow in your Codespace
+
+Navigate to your project folder (where your samplesheet.csv or workflow is).
+
+Run a pipeline, for example:
+
+nextflow run nf-core/viralrecon -profile conda --input samplesheet.csv --outdir results
+
+
+Nextflow will automatically detect your Conda environment if you use -profile conda.
+
+
+
+As per tutorial, the commands to run are below. See at the botton for a corrected one with less resources used.
+
+nextflow run nf-core/viralrecon -profile conda \
+--max_memory '12.GB' --max_cpus 4 \
+--input samplesheet.csv \
+--outdir results/viralrecon \
+--protocol amplicon \
+--genome 'MN908947.3' \
+--primer_set artic \
+--primer_set_version 3 \
+--skip_kraken2 \
+--skip_assembly \
+--skip_pangolin \
+--skip_nextclade \
+--skip_asciigenome \
+--platform illumina \
+-resume
+
+
+
+nextflow run nf-core/viralrecon \
+  -profile conda \
+  --max_memory '2.GB' \
+  --max_cpus 1 \
+  --input samplesheet.csv \
+  --outdir results/viralrecon \
+  --protocol amplicon \
+  --genome 'MN908947.3' \
+  --primer_set artic \
+  --primer_set_version 3 \
+  --skip_kraken2 \
+  --skip_assembly \
+  --skip_pangolin \
+  --skip_nextclade \
+  --skip_asciigenome \
+  --platform illumina \
+  -resume \
+  --save_report false \
+  --save_logs false \
+  --save_metadata false \
+  --save_trace false \
+  --save_workflow false

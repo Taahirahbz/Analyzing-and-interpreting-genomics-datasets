@@ -1,0 +1,60 @@
+The nf-core viralrecon pipeline
+
+nf-core/viralrecon is a Nextflow-based analysis pipeline used to perform assembly and 
+intra-host/low-frequency variant calling for viral samples and supports both Illumina and Nanopore sequencing data
+
+For Illumina short-reads the pipeline is able to analyse metagenomics data typically obtained from shotgun sequencing 
+(e.g. directly from clinical samples) and enrichment-based library preparation methods (e.g. amplicon-based: ARTIC SARS-CoV-2 enrichment protocol; or probe-capture-based).
+
+  Briefly, the sequence data is quality controlled (QC) then, depending on the type of data and 
+  what analyses you’d like to perform, the sequence reads are either mapped to a reference and variant calling performed or else the data is de novo assembled. 
+    Alternatively, like most nf-core pipelines, you can do both.
+
+      As with all nf-core pipelines and all bioinformatics tools in fact,
+      it’s always worth reading the documentation to understand the different steps of the pipeline and what other options there may be available.
+viralrecon has a number of different parameters and options we could use to analyse our data and these are listed on the viralrecon pipeline page. 
+We’re going to skip some of the steps such as removing host classified reads and lineage assignment in the interests of time but feel free to have a play with the different parameters. 
+It’s also super important that you check what resources you have (memory and CPUs) on your computer and adjust the command below accordingly.
+
+nextflow run nf-core/viralrecon -profile conda \
+--max_memory '12.GB' --max_cpus 4 \
+--input samplesheet.csv \
+--outdir results/viralrecon \
+--protocol amplicon \
+--genome 'MN908947.3' \
+--primer_set artic \
+--primer_set_version 3 \
+--skip_kraken2 \
+--skip_assembly \
+--skip_pangolin \
+--skip_nextclade \
+--skip_asciigenome \
+--platform illumina \
+-resume
+
+
+The parameters we’ve used are described in the table below:
+
+Parameter	Description
+-profile conda	Tells Nextflow to download and create conda environments for each tool. Other options include singularity and Docker
+--max_memory ‘12.GB’	Sets the maximum available memory (RAM) on your machine. You should set this to what you have on your system.
+--max_cpus 4	Sets the maximum number of CPUs (threads) available on your system. You should set this to what you have on your system.
+--input samplesheet.csv	Input file we created in the previous section
+--outdir results/viralrecon	Directory to save the pipeline results to
+--protocol amplicon	Specifies the type of protocol used for sequencing.
+--genome ‘MN908947.3’	Specifies which reference to use to align the sequences to, in this case the Wuhan-Hu-1 sequence
+--primer_set artic	The primer set to be used for the data analysis
+--primer_set_version 3	Version of the primer set
+--skip_kraken2	Skip Kraken2 process for removing host classified reads.
+--skip_assembly	Skip all of the de novo assembly steps in the pipeline
+--skip_pangolin	Skip Pangolin lineage analysis
+--skip_nextclade	Skip Nextclade clade assignment, mutation calling, and sequence quality checks
+--skip_asciigenome	Skip variant screenshot generation with ASCIIGenome
+--platform illumina	NGS platform used to sequence the samples
+-resume	This tells the pipeline to resume from the last successfully completed job. This is very useful when you get an error or else when your computer shuts down.
+
+
+
+
+
+        

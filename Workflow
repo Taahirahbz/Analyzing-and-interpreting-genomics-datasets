@@ -1,3 +1,48 @@
 ###Every command used (on codespace named workflow)for workflow analysis as per tutorial shall be listed as w1., w2., ect.. ABOVE the following notes.
 ###Every file generated from that workspace shall be named as wfile1, wfile2, ect...
 
+
+You were introduced to some of the most commonly used bioinformatics programs like FastQC in Week 1. 
+However, we may want to analyse large amounts of data using several different tools that each need to be run on our input files and the subsequent outputs.
+You can imagine that waiting around for each of these tasks to complete before inputting the next command can be very inconvenient.
+It would be much better if we were able to somehow chain these tools together so all the tasks are executed in one go. 
+Fortunately, we can and when these tasks are collected together they are known as a workflow or a pipeline. 
+These workflows typically involve the execution of different software tools with the output of one tool becoming the input to the next tool in the workflow.
+
+Traditionally, bioinformatics workflows were written in general purpose programming languages such as bash, Perl or Python but, more recently, 
+new specific workflow management systems such as Nextflow, Snakemake and Galaxy have been developed especially to manage computational data analysis workflows.
+
+Workflow Management Systems (WfMS) are specialized systems designed to compose and execute a series of computational or data manipulation steps, or a workflow.
+The major advantages of using WfMS are that they simplify the development, execution and monitoring of pipelines as well as allowing these workflows to be shared
+ensuring that the same results can be obtained from the same data (i.e. they are reproducible) which is a key outcome for any scientific investigation. 
+
+The key features of WfMS are:
+
+Run time management: program execution on the operating system is managed for you. Tasks and data are split (‘parallelised’) to run at the same time speeding up your analyses.
+
+Software management: containerisation technologies like Docker and Singularity/Apptainer that package software tools
+and their dependencies are utilised natively by WfMS meaning pipelines can be deployed reliably on different platforms
+
+Interoperability: pipelines can be run on different types of computing infrastructure from your own machine to a local cluster or cloud based services such as AWS or Azure.
+
+Reproducibility: the use of software management and version control means pipelines will produce the same results when re-run on different platforms.
+
+Resumption: continuous checkpointing allows pipelines to be resumed from the last successfully executed steps. 
+This means you don’t have to restart the whole workflow if one of the steps fails or your computer decides to restart itself.
+
+#The nf-core project:
+
+Pipelines developed for nf-core must follow strict guidelines. 
+These include using the nf-core template, standardised parameters, such as input formats, 
+high quality documentation outlining inputs, parameters and outputs and test datasets that can be used when testing any nf-core pipeline on a new system. 
+Each pipeline release is version controlled, meaning that the same software tools and versions are used ensuring reproducibility.
+
+
+There are currently over 80 pipelines available through nf-core and these include pipelines for downloading fastq files from the European Nucleotide Archive
+or Short Read Archive (fetchngs), RNA-seq analysis (rnaseq) and metagenomics (mag). 
+Help and advice on running nf-core pipelines can be found in a number of different community forums including a vibrant slack channel. 
+Now that we’ve introduced you to nf-core, we can start preparing to run one of their pipelines, viralrecon. 
+We’re going to cover installing Nextflow (a containerisation tool) on your system using conda.
+
+
+
