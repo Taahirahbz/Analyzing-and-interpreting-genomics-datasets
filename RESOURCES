@@ -1,0 +1,47 @@
+YOU NEED A PROGRAMMED ENVIRONMENT. NOTES ON MOOCS SHALL BE ADDED LATER. CONDA ACTIVATE NEXTFLOW.
+
+For a particular workflow, for example, viralrecon, the following should be run:
+
+nextflow run nf-core/viralrecon -profile conda \
+--max_memory '12.GB' --max_cpus 4 \
+--input samplesheet.csv \
+--outdir results/viralrecon \
+--protocol amplicon \
+--genome 'MN908947.3' \
+--primer_set artic \
+--primer_set_version 3 \
+--skip_kraken2 \
+--skip_assembly \
+--skip_pangolin \
+--skip_nextclade \
+--skip_asciigenome \
+--platform illumina \
+-resume
+
+
+#The second line, however, should be according to your computer resources.
+*How to learn about available resources?
+
+1. Check number of CPU cores
+On powershell, run:                         nproc
+
+2. Check available RAM
+On powershell, run:                        free -h
+
+3. Check available disk space
+On powershell, run:                         df -h
+
+4. Check if Nextflow is installed
+Run:                                       nextflow -version
+
+5. Check if Singularity or Docker is installed (viralrecon uses containers)
+For Singularity:
+Run:                                       singularity --version
+
+For Docker:
+Run:                                      docker --version
+                                          docker info   # shows how many CPUs & RAM Docker can use
+
+
+Using the info generated, customize the viralrecon command.
+
