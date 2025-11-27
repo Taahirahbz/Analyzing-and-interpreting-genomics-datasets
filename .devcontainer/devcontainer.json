@@ -1,34 +1,23 @@
 {
-  "name": "Nextflow + Conda (Mambaforge)",
+  "name": "Nextflow + Conda",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
 
-  // Increase resources when in Codespaces
-  "hostRequirements": {
-    "cpus": 4,
-    "memory": "16gb"
-  },
-
   "features": {
-    // Adds Mambaforge (Conda)
     "ghcr.io/devcontainers/features/mambaforge:1": {},
-
-    // Java (Nextflow dependency)
     "ghcr.io/devcontainers/features/java:1": {
       "version": "temurin-17"
     },
-
-    // Git LFS (nf-core uses LFS for pipelines)
     "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
 
-  "postCreateCommand": "bash .devcontainer/postCreateSetup.sh",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-docker",
-        "ms-python.python",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "ms-python.python"
       ]
     }
   }
