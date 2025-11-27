@@ -3,11 +3,6 @@ RUN apt-get update && \
     apt-get install -y openjdk-17-jdk && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Nextflow
-RUN curl -s https://get.nextflow.io -o /tmp/nextflow && \
-    chmod +x /tmp/nextflow && \
-    mv /tmp/nextflow /usr/local/bin/nextflow
-
 # Base image with Mambaforge (full Conda environment)
 FROM condaforge/mambaforge:latest
 
