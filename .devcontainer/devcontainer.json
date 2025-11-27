@@ -1,16 +1,14 @@
 {
-  "name": "Nextflow + Conda",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-python.python",
-        "redhat.vscode-yaml",
-        "ms-azuretools.vscode-docker"
-      ]
+    "name": "Conda + Nextflow",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "context": "."
+    },
+    "remoteUser": "root",
+    "postCreateCommand": "conda init bash",
+    "customizations": {
+        "vscode": {
+            "extensions": []
+        }
     }
-  },
-  "remoteUser": "vscode"
 }
