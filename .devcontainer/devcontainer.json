@@ -1,18 +1,17 @@
 {
-    "name": "Conda + Nextflow + Java",
-    "build": {
-        "dockerfile": "Dockerfile",
-        "context": "."
-    },
-    "remoteUser": "vscode",
-    "postCreateCommand": "source /opt/conda/etc/profile.d/conda.sh && conda init bash",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-python.python",
-                "nextflow.nextflow",
-                "vscjava.vscode-java-pack"
-            ]
-        }
+  "name": "Nextflow + Python + Java",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "vscode",
+  "postCreateCommand": "source /opt/conda/etc/profile.d/conda.sh && conda init bash",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "nextflow.nextflow",
+        "vscjava.vscode-java-pack"
+      ]
     }
+  }
 }
