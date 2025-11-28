@@ -9,8 +9,8 @@
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "nextflow.nextflow",
-        "vscjava.vscode-java-pack"
+        "vscjava.vscode-java-pack",
+        "nextflow.nextflow"
       ]
     }
   }
