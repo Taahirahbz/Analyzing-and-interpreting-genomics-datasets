@@ -1,16 +1,27 @@
 {
-  "name": "Nextflow + Python + Java",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "name": "Nextflow + Conda Codespace",
+
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu", 
+
   "remoteUser": "vscode",
-  "postCreateCommand": "true",
+
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/install-conda.sh",
+
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "vscjava.vscode-java-pack",
-        "nextflow.nextflow"
+        "nextflow.nextflow",
+        "vscjava.vscode-java-pack"
       ]
     }
   }
